@@ -94,15 +94,19 @@
 
 
 
-<meta name="description" content="获得人生的成功，需要的专注和坚持不懈多过天才和机会">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Rockets.Luo's Notes">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。
+什么是缓存并发？在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过双key解决缓存并发的雪崩问题">
+<meta property="og:url" content="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/index.html">
 <meta property="og:site_name" content="Rockets.Luo's Notes">
-<meta property="og:description" content="获得人生的成功，需要的专注和坚持不懈多过天才和机会">
+<meta property="og:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。
+什么是缓存并发？在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至">
+<meta property="og:updated_time" content="2017-09-03T10:14:32.204Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rockets.Luo's Notes">
-<meta name="twitter:description" content="获得人生的成功，需要的专注和坚持不懈多过天才和机会">
+<meta name="twitter:title" content="通过双key解决缓存并发的雪崩问题">
+<meta name="twitter:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。
+什么是缓存并发？在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至">
 
 
 
@@ -131,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/"/>
 
 
 
 
 
-  <title>Rockets.Luo's Notes</title>
+  <title>通过双key解决缓存并发的雪崩问题 | Rockets.Luo's Notes</title>
   
 
 
@@ -156,9 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -251,9 +253,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -283,9 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/03/通过Redis的双key防止缓存雪崩/" itemprop="url">通过双key解决缓存并发的雪崩问题</a></h1>
+          <h1 class="post-title" itemprop="name headline">通过双key解决缓存并发的雪崩问题</h1>
         
 
         <div class="post-meta">
@@ -346,9 +346,7 @@
       
 
       
-        
-          
-            <p>我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。</p>
+        <p>我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。</p>
 <h4 id="什么是缓存并发？"><a href="#什么是缓存并发？" class="headerlink" title="什么是缓存并发？"></a>什么是缓存并发？</h4><p>在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至宕机，此问题即缓存并发问题。</p>
 <p>缓存并发问题在微服务架构下凸显更加严重，比如某个基础服务A因为上述问题出现不可用，进而导致依赖A服务的B、C服务也不可用，而B服务的不可用又导致服务E、F不可用，不可用的服务就像滚雪球一样越滚越大，最终导致系统出现严重故障，此现象我们称之为雪崩效应。</p>
 <h4 id="如何解决？"><a href="#如何解决？" class="headerlink" title="如何解决？"></a>如何解决？</h4><p>针对该问题，存在以下三种解决方案：</p>
@@ -425,8 +423,6 @@
     }
 }
 </code></pre>
-          
-        
       
     </div>
     
@@ -443,147 +439,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/Git-配置多个SSH-Key/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rockets.Luo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rockets.Luo's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/14/Git-配置多个SSH-Key/" itemprop="url">一台机器上配置多个Git平台的SSH Key</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-14T16:32:00+08:00">
-                2017-08-14
-              </time>
+              <a href="/2017/08/14/Git-配置多个SSH-Key/" rel="next" title="一台机器上配置多个Git平台的SSH Key">
+                <i class="fa fa-chevron-left"></i> 一台机器上配置多个Git平台的SSH Key
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/08/14/Git-配置多个SSH-Key/" class="leancloud_visitors" data-flag-title="一台机器上配置多个Git平台的SSH Key">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>今天遇到了这种情况：自己的兴趣项目同时在github和gitoschina上，这样就需要在一台机器上配置多个SSH key对应到上述两个不同的环境。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/14/Git-配置多个SSH-Key/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -593,10 +470,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -604,6 +482,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -624,8 +506,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/1.jpg"
@@ -678,6 +569,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是缓存并发？"><span class="nav-number">1.</span> <span class="nav-text">什么是缓存并发？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何解决？"><span class="nav-number">2.</span> <span class="nav-text">如何解决？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双key方案的Redis示例代码"><span class="nav-number">3.</span> <span class="nav-text">双key方案的Redis示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-写缓存的示例代码"><span class="nav-number">3.0.1.</span> <span class="nav-text">1. 写缓存的示例代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-读缓存的示例代码"><span class="nav-number">3.0.2.</span> <span class="nav-text">2. 读缓存的示例代码</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -804,10 +711,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
