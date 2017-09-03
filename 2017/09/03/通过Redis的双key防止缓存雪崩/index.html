@@ -94,19 +94,16 @@
 
 
 
-<meta name="description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。
-什么是缓存并发？在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至">
+<meta name="description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过双key解决缓存并发的雪崩问题">
+<meta property="og:title" content="通过双key解决缓存并发问题">
 <meta property="og:url" content="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/index.html">
 <meta property="og:site_name" content="Rockets.Luo's Notes">
-<meta property="og:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。
-什么是缓存并发？在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至">
-<meta property="og:updated_time" content="2017-09-03T10:14:32.204Z">
+<meta property="og:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
+<meta property="og:updated_time" content="2017-09-03T10:32:49.450Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过双key解决缓存并发的雪崩问题">
-<meta name="twitter:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。
-什么是缓存并发？在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至">
+<meta name="twitter:title" content="通过双key解决缓存并发问题">
+<meta name="twitter:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
 
 
 
@@ -141,7 +138,7 @@
 
 
 
-  <title>通过双key解决缓存并发的雪崩问题 | Rockets.Luo's Notes</title>
+  <title>通过双key解决缓存并发问题 | Rockets.Luo's Notes</title>
   
 
 
@@ -285,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">通过双key解决缓存并发的雪崩问题</h1>
+          <h1 class="post-title" itemprop="name headline">通过双key解决缓存并发问题</h1>
         
 
         <div class="post-meta">
@@ -315,7 +312,7 @@
 
           
           
-             <span id="/2017/09/03/通过Redis的双key防止缓存雪崩/" class="leancloud_visitors" data-flag-title="通过双key解决缓存并发的雪崩问题">
+             <span id="/2017/09/03/通过Redis的双key防止缓存雪崩/" class="leancloud_visitors" data-flag-title="通过双key解决缓存并发问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -347,6 +344,7 @@
 
       
         <p>我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。</p>
+<a id="more"></a>
 <h4 id="什么是缓存并发？"><a href="#什么是缓存并发？" class="headerlink" title="什么是缓存并发？"></a>什么是缓存并发？</h4><p>在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至宕机，此问题即缓存并发问题。</p>
 <p>缓存并发问题在微服务架构下凸显更加严重，比如某个基础服务A因为上述问题出现不可用，进而导致依赖A服务的B、C服务也不可用，而B服务的不可用又导致服务E、F不可用，不可用的服务就像滚雪球一样越滚越大，最终导致系统出现严重故障，此现象我们称之为雪崩效应。</p>
 <h4 id="如何解决？"><a href="#如何解决？" class="headerlink" title="如何解决？"></a>如何解决？</h4><p>针对该问题，存在以下三种解决方案：</p>
