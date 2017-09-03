@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/index.html">
 <meta property="og:site_name" content="Rockets.Luo's Notes">
 <meta property="og:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
-<meta property="og:updated_time" content="2017-09-03T10:32:49.450Z">
+<meta property="og:updated_time" content="2017-09-03T10:39:11.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过双key解决缓存并发问题">
 <meta name="twitter:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
@@ -398,9 +398,9 @@
 
         if (jedis.setnx(&quot;lock_&quot; + key, System.currentTimeMillis()+&quot;&quot;) == 1) {
             /**
-             * 将锁的有效时间设为 60s ，在 60s 内如果查询数据库成功，则更新该锁的失效时间=缓存时间。
-             * 如果 60s 内出现异常，则 60s 后第一个请求又会去访问数据库...
-             * 返回 null 表示没有查询到数据库，外层代码会通过数据库获取数据
+             * 将锁的有效时间设为60s，在60s内如果查询数据库成功，则更新该锁的失效时间=真实缓存时间
+             * 如果60s内出现异常，则60s后第一个请求又会去访问数据库
+             * 返回null表示没有查询到数据库，外层代码会通过数据库获取数据
              */
             jedis.expire(&quot;lock_&quot; + key, 60);
             return null;
