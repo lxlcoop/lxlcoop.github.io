@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="redis,缓存," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -94,16 +94,15 @@
 
 
 
-<meta name="description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="通过双key解决缓存并发问题">
-<meta property="og:url" content="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/index.html">
+<meta name="description" content="获得人生的成功，需要的专注和坚持不懈多过天才和机会">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rockets.Luo's Notes">
+<meta property="og:url" content="http://yoursite.com/tags/redis/index.html">
 <meta property="og:site_name" content="Rockets.Luo's Notes">
-<meta property="og:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
-<meta property="og:updated_time" content="2017-09-03T11:17:49.960Z">
+<meta property="og:description" content="获得人生的成功，需要的专注和坚持不懈多过天才和机会">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过双key解决缓存并发问题">
-<meta name="twitter:description" content="我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。">
+<meta name="twitter:title" content="Rockets.Luo's Notes">
+<meta name="twitter:description" content="获得人生的成功，需要的专注和坚持不懈多过天才和机会">
 
 
 
@@ -132,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/"/>
+  <link rel="canonical" href="http://yoursite.com/tags/redis/"/>
 
 
 
 
 
-  <title>通过双key解决缓存并发问题 | Rockets.Luo's Notes</title>
+  <title>标签: redis | Rockets.Luo's Notes</title>
   
 
 
@@ -157,7 +156,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -251,235 +250,54 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>redis<small>标签</small>
+        </h1>
+      </div>
 
-  
-  
-  
+      
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/通过Redis的双key防止缓存雪崩/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rockets.Luo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rockets.Luo's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">通过双key解决缓存并发问题</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2017/09/03/通过Redis的双key防止缓存雪崩/" itemprop="url">
               
-                <span class="post-meta-item-text">发表于</span>
+                <span itemprop="name">通过双key解决缓存并发问题</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T14:03:00+08:00">
-                2017-09-03
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-09-03T14:03:00+08:00"
+              content="2017-09-03" >
+          09-03
+        </time>
+      </div>
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/09/03/通过Redis的双key防止缓存雪崩/" class="leancloud_visitors" data-flag-title="通过双key解决缓存并发问题">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>我们在使用缓存的时候，不管Redis或者是Memcached，基本上都会遇到以下3个问题：缓存穿透、缓存并发、缓存集中失效。这篇文章主要针对【缓存并发】问题展开讨论，并给出具体的解决方案。</p>
-<a id="more"></a>
-<h4 id="什么是缓存并发？"><a href="#什么是缓存并发？" class="headerlink" title="什么是缓存并发？"></a>什么是缓存并发？</h4><p>在高并发的访问下，当某个缓存处于过期失效的时间点时，极有可能出现多个进程同时查询该缓存，此时因为缓存失效了，这些并发请求便会直接查询DB，导致DB服务器的CPU或者内存负载过高，服务能力下降甚至宕机，此问题即缓存并发问题。</p>
-<p>缓存并发问题在微服务架构下凸显更加严重，比如某个基础服务A因为上述问题出现不可用，进而导致依赖A服务的B、C服务也不可用，而B服务的不可用又导致服务E、F不可用，不可用的服务就像滚雪球一样越滚越大，最终导致系统出现严重故障，此现象我们称之为雪崩效应。</p>
-<h4 id="如何解决？"><a href="#如何解决？" class="headerlink" title="如何解决？"></a>如何解决？</h4><p>针对该问题，存在以下三种解决方案：</p>
-<ol>
-<li><p>加锁：在缓存失效后，通过加锁的方式只允许一个线程查询数据和写缓存，其他线程如果发现有锁就等待，等解锁后再返回数据。该方案会造成部分请求等待。</p>
-</li>
-<li><p>二级缓存：A1为原始缓存，A2为拷贝缓存，A1失效时，可以访问A2，其中A1缓存失效时间设置为短期（比如5min），A2设置为长期（比如1天）</p>
-</li>
-<li><p>双key：思路和方案2类似，不同的是双key分别缓存过期时间（key-time)和缓存数据（key-data），当缓存过期时，第一个线程发现 key-time 没有，则先更新 key-time,然后去查询数据库并更新key-data 的值；当其他线程来获取数据时，虽然第一个线程还没有从数据库查询完毕并更新缓存，但发现key-time存在，会直接读取缓存的旧数据返回。同理，(key-time)的缓存失效时间设置为短期（比如5min），(key-data)设置为长期（比如1天）</p>
-</li>
-</ol>
-<h4 id="双key方案的Redis示例代码"><a href="#双key方案的Redis示例代码" class="headerlink" title="双key方案的Redis示例代码"></a>双key方案的Redis示例代码</h4><h5 id="1-写缓存的示例代码"><a href="#1-写缓存的示例代码" class="headerlink" title="1. 写缓存的示例代码"></a>1. 写缓存的示例代码</h5><pre><code>public static boolean set(String key, String value, int seconds) {
-    Jedis jedis = null;
-    int redisIndex = RedisUtils.getRedisIndex(key);
-    try {
-        jedis = getRedis(redisIndex);
-        if (seconds &gt; 0){
-            // 添加数据缓存，缓存有效时间 = 真实时间+1 天
-            jedis.setex(key, seconds + 60 * 60 *24 , value);
-            jedis.select(1);
-
-            // 添加过期时间缓存，缓存有效时间 = 真实时间
-            jedis.setex(&quot;lock_&quot; + key, seconds, System.currentTimeMillis()+&quot;&quot;);
-        } else{
-            jedis.set(key, value);
-            jedis.select(1);
-            jedis.set(&quot;lock_&quot; + key,    System.currentTimeMillis()+&quot;&quot;);
-         }
-
-         return true;
-    } catch (JedisException e) {
-         if (jedis != null) {
-             returnBrokenResource(jedis, redisIndex);
-             jedis = null;
-     }
-     throw e;
-    } finally {
-         if (jedis != null) {
-             returnResource(jedis, redisIndex);
-         }
-    }
-}
-</code></pre><h5 id="2-读缓存的示例代码"><a href="#2-读缓存的示例代码" class="headerlink" title="2. 读缓存的示例代码"></a>2. 读缓存的示例代码</h5><pre><code>public static String get(String key) {
-    Jedis jedis = null;
-    int redisIndex = RedisUtils.getRedisIndex(key);
-    try {
-        jedis = getRedis(redisIndex);
-        jedis.select(1);
-
-        // 缓存过期 &amp;&amp; 获取锁成功，setnx:原子操作
-        if (jedis.setnx(&quot;lock_&quot; + key, System.currentTimeMillis()+&quot;&quot;) == 1) {
-            /**
-             * 将锁的失效时间设为60s，在60s内若查询数据库成功，则更新锁的失效时间=缓存时间
-             * 如果60s内出现异常，则60s后第一个请求又会去访问数据库
-             * 返回null表示没有查询到数据库，外层代码会通过数据库获取数据
-             */
-            jedis.expire(&quot;lock_&quot; + key, 60);
-            return null;
-        } else{
-            // 缓存未过期或者缓存过期但获取锁失败, 则返回旧数据
-            jedis.select(0);
-            return jedis.get(key);
-        }
-    } catch (JedisException e) {
-        if (jedis != null) {
-            returnBrokenResource(jedis, redisIndex);
-            jedis = null;
-        } throw e;
-    } finally {
-        if (jedis != null) {
-            returnResource(jedis, redisIndex);
-        }
-    }
-}
-</code></pre>
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/redis/" rel="tag"># redis</a>
-          
-            <a href="/tags/缓存/" rel="tag"># 缓存</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/08/14/Git-配置多个SSH-Key/" rel="next" title="一台机器上配置多个Git平台的SSH Key">
-                <i class="fa fa-chevron-left"></i> 一台机器上配置多个Git平台的SSH Key
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
       
     </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -487,10 +305,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -511,17 +325,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/1.jpg"
@@ -574,22 +379,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是缓存并发？"><span class="nav-number">1.</span> <span class="nav-text">什么是缓存并发？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何解决？"><span class="nav-number">2.</span> <span class="nav-text">如何解决？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双key方案的Redis示例代码"><span class="nav-number">3.</span> <span class="nav-text">双key方案的Redis示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-写缓存的示例代码"><span class="nav-number">3.1.</span> <span class="nav-text">1. 写缓存的示例代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-读缓存的示例代码"><span class="nav-number">3.2.</span> <span class="nav-text">2. 读缓存的示例代码</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -716,10 +505,10 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 
